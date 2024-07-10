@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điện Thoại Dubai 4.0</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #fff; /* Màu chữ trắng */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Không cho phép scroll */
+        }
+
+        .landing {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Chiều cao toàn màn hình */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Đẩy video xuống phía dưới */
+            filter: brightness(50%) contrast(120%); /* Điều chỉnh độ sáng và độ tương phản của video */
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1; /* Đẩy nội dung lên phía trên */
+            color: inherit; /* Màu chữ kế thừa từ body */
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .video-overlay h1,
+        .video-overlay p {
+            margin-bottom: 20px;
+            color: #ff7f50; /* Màu cam nhạt cho tiêu đề và nội dung */
+        }
+
+        .btn-primary {
+            background-color: #ff7f50; /* Màu cam nhạt */
+            border-color: #ff7f50; /* Màu viền màu cam nhạt */
+            transition: background-color 0.3s ease;
+            color: #ffffff; /* Màu chữ trắng */
+            padding: 12px 24px; /* Điều chỉnh khoảng cách giữa nội dung và viền */
+            font-size: 1.2rem; /* Điều chỉnh kích thước chữ */
+            border-radius: 8px; /* Điều chỉnh độ cong của góc */
+            text-decoration: none; /* Loại bỏ gạch chân mặc định trên liên kết */
+        }
+
+        .btn-primary:hover {
+            background-color: #ff6347; /* Màu cam đậm khi hover */
+            border-color: #ff6347; /* Màu viền màu cam đậm khi hover */
+        }
+    </style>
+</head>
+<body>
+<section class="landing">
+    <!-- Video background -->
+    <video autoplay muted loop id="video-bg">
+        <source src="https://cdn.pixabay.com/video/2021/02/20/65771-515379416_tiny.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Content -->
+    <div class="video-overlay">
+        <h1>Chào mừng bạn đến với Shop điện thoại Dubai 4.0</h1>
+        <p>Khám phá những mẫu điện thoại đa dạng của chúng tôi!</p>
+        <a href="/products" class="btn btn-primary btn-lg"><i class="fas fa-eye"></i> Xem Sản Phẩm</a>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

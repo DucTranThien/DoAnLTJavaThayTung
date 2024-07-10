@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Product Management</h1>
+    <button onclick="loadProducts()" class="btn btn-primary mb-3">Refresh Products</button>
+    <table id="productTable" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Giá</th>
+            <th>Mô tả</th>
+            <th>Hình ảnh</th>
+            <th>Số lượng trong kho</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="productList"></tbody>
+    </table>
+    <!-- Form to add/update a product -->
+    <form id="productForm">
+        <input type="hidden" id="productId">
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên sản phẩm:</label>
+            <input type="text" class="form-control" id="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Giá tiền:</label>
+            <input type="number" class="form-control" id="price" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả sản phẩm:</label>
+            <input type="text" class="form-control" id="description">
+        </div>
+        <div class="mb-3">
+            <label for="imageUrl" class="form-label">Hình ảnh:</label>
+            <input type="text" class="form-control" id="imageUrl">
+        </div>
+        <div class="mb-3">
+            <label for="stock" class="form-label">Số lượng tồn kho:</label>
+            <input type="number" class="form-control" id="stock">
+        </div>
+        <button type="submit" class="btn btn-success">Save Product</button>
+    </form>
+</div>
+<script>
+    $(document).ready(function() {
+        loadProducts();
+        $("#productForm").on('submit', function(e) {
+            e.preventDefault();
+            saveProduct();
+        });
+
+         // Initialize DataTables
+    });
+
+    function loadProducts() {
+        $.ajax({
+            url: '/api/products',
+            type: 'GET',
+            success: function(products) {
+                let productList = '';
+                $.each(products, function(index, product) {
+                    productList += `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.price}</td>
+                        <td>${product.description}</td>
+                        <td><img src="${product.imageUrl}" class="card-img-top" alt="Hình ảnh sản phẩm"></td>
+
+                        <td>${product.stock}</td>
+                        <td>
+                            <button onclick="editProduct(${product.id})" class="btn btn-warning">Sửa</button>
+                            <button onclick="deleteProduct(${product.id})" class="btn btn-danger">Xoá</button>
+                        </td>
+                    </tr>`;
+                });
+                $('#productList').html(productList);
+
+                // Reinitialize DataTables after loading data
+                $('#productTable').DataTable();
+            }
+        });
+    }
+
+    function saveProduct() {
+        const productData = {
+            id: $('#productId').val(),
+            name: $('#name').val(),
+            price: $('#price').val(),
+            description: $('#description').val(),
+            imageUrl: $('#imageUrl').val(),
+            stock: $('#stock').val()
+        };
+        const apiUrl = productData.id ? `/api/products/${productData.id}` : '/api/products';
+        const apiType = productData.id ? 'PUT' : 'POST';
+        $.ajax({
+            url: apiUrl,
+            type: apiType,
+            contentType: 'application/json',
+            data: JSON.stringify(productData),
+            success: function() {
+                resetForm();
+                loadProducts();
+            }
+        });
+    }
+
+    function editProduct(id) {
+        $.ajax({
+            url: `/api/products/${id}`,
+            type: 'GET',
+            success: function(product) {
+                $('#productId').val(product.id);
+                $('#name').val(product.name);
+                $('#price').val(product.price);
+                $('#description').val(product.description);
+                $('#imageUrl').val(product.imageUrl);
+                $('#stock').val(product.stock);
+            }
+        });
+    }
+
+    function deleteProduct(id) {
+        if (confirm('Bạn có muốn xoá sản phẩm này không?')) {
+            $.ajax({
+                url: `/api/products/${id}`,
+                type: 'DELETE',
+                success: function() {
+                    loadProducts();
+                }
+            });
+        }
+    }
+
+    function resetForm() {
+        $('#productId').val('');
+        $('#name').val('');
+        $('#price').val('');
+        $('#description').val('');
+        $('#imageUrl').val('');
+        $('#stock').val('');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${title} ?: 'Thông tin thanh toán'">Đặt hàng</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .form-control {
+            width: 300px;
+        }
+        .btn-group {
+            margin-top: 15px;
+        }
+        .btn-group .btn {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-3">
+    <h1><i class="fas fa-credit-card"></i> Thông tin thanh toán</h1>
+    <div class="btn-group">
+        <form id="checkoutForm" th:action="@{/payment/process}" method="post">
+            <div class="mb-3 d-inline-block">
+                <label for="customerName" class="form-label"><i class="fas fa-user"></i> Tên của bạn:</label>
+                <input type="text" id="customerName" name="customerName" class="form-control" required>
+            </div>
+            <div class="mb-3 d-inline-block">
+                <label for="shippingAddress" class="form-label"><i class="fas fa-map-marker-alt"></i> Địa chỉ giao hàng:</label>
+                <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required>
+            </div>
+            <div class="mb-3 d-inline-block">
+                <label for="phoneNumber" class="form-label"><i class="fas fa-phone"></i> Số điện thoại:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
+            </div>
+            <div class="mb-3 d-inline-block">
+                <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3 d-inline-block">
+                <label for="note" class="form-label"><i class="fas fa-sticky-note"></i> Ghi chú:</label>
+                <textarea id="note" name="note" class="form-control"></textarea>
+            </div>
+            <div class="mb-3 d-inline-block">
+                <label for="paymentMethod" class="form-label"><i class="fas fa-credit-card"></i> Phương thức thanh toán:</label>
+                <select id="paymentMethod" name="paymentMethod" class="form-control" required>
+                    <option value="vnpay">VNPay</option>
+                    <option value="cod" selected>Tiền mặt</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Gửi Đơn Hàng</button>
+            <a href="/cart" class="btn btn-warning"><i class="fas fa-shopping-cart"></i> Quay về giỏ hàng</a>
+        </form>
+    </div>
+</section>
+
+</body>
+</html>
